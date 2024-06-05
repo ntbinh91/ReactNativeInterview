@@ -1,5 +1,5 @@
 const IMAGES = {
-  LOGO: require('src/assets/images/logo.png'),
+  LOGO: require('../assets/images/logo.webp'),
 };
 
 export default IMAGES;

@@ -219,7 +219,7 @@ const LoginScreen = () => {
           size="lg"
           disabled={!isValid}
           bg={isValid ? '$rose600' : '$secondary300'}>
-          <ButtonText>LOGIN</ButtonText>
+          <ButtonText fontSize="$md">LOGIN</ButtonText>
         </Button>
       </View>
     </SafeAreaView>

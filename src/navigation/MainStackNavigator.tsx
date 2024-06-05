@@ -34,6 +34,7 @@ const MainStackNavigator = () => {
         headerTitle: () => (
           <Image source={IMAGES.LOGO} width={30} height={30} alt="logo" />
         ),
+        headerTitleAlign: 'center',
       }}>
       <MainStack.Screen
         name={ScreenName.MainBottomTab}
