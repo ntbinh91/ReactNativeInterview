@@ -1,6 +1,7 @@
 import {
   HStack,
   Image,
+  Pressable,
   Text,
   VStack,
   View,
@@ -11,6 +12,7 @@ import {StarIcon as StarIconSolid} from 'react-native-heroicons/solid';
 import {StarIcon as StarIconOutline} from 'react-native-heroicons/outline';
 import {MapPinIcon} from 'react-native-heroicons/solid';
 import {User} from 'src/types/user.types';
+import useAppStore from 'src/stores/useAppStore';
 
 interface Props {
   user: User;
@@ -18,6 +20,17 @@ interface Props {
 
 const UserItem = ({user}: Props) => {
   const activeColor = useToken('colors', 'rose600');
+  const {favoriteUsers, setFavoriteUsers} = useAppStore();
+
+  const toggleFavorite = () => {
+    if (favoriteUsers.find(favUser => favUser.login.uuid === user.login.uuid)) {
+      setFavoriteUsers(
+        favoriteUsers.filter(favUser => favUser.login.uuid !== user.login.uuid),
+      );
+    } else {
+      setFavoriteUsers([...favoriteUsers, user]);
+    }
+  };
 
   return (
     <View paddingRight="$5" paddingLeft={50}>
@@ -51,8 +64,15 @@ const UserItem = ({user}: Props) => {
             </Text>
           </HStack>
         </VStack>
-        <StarIconSolid size={28} color={activeColor} />
-        <StarIconOutline size={28} color={activeColor} />
+        <Pressable onPress={toggleFavorite}>
+          {favoriteUsers.find(
+            favUser => favUser.login.uuid === user.login.uuid,
+          ) ? (
+            <StarIconSolid size={28} color={activeColor} />
+          ) : (
+            <StarIconOutline size={28} color={activeColor} />
+          )}
+        </Pressable>
       </HStack>
     </View>
   );
