@@ -26,6 +26,7 @@ import {EyeIcon, EyeSlashIcon} from 'react-native-heroicons/solid';
 import {ToastType, useToastMessage} from 'src/hooks/useToastMessage';
 import {LoginRequest} from 'src/types/auth.types';
 import {EnvelopeIcon, LockClosedIcon} from 'react-native-heroicons/outline';
+import styles from './LoginScreen.styles';
 
 const DEFAULT_CREDENTIALS = {
   email: 'reactnative@jetdevs.com',
@@ -150,7 +151,7 @@ const LoginScreen = () => {
                     }}
                     blurOnSubmit={false}
                     clearButtonMode="while-editing"
-                    flex={1}
+                    style={styles.flex1}
                     onFocus={handleFocus('email')}
                     onBlur={handleBlur('email')}
                   />
@@ -190,7 +191,7 @@ const LoginScreen = () => {
                     }}
                     clearButtonMode="while-editing"
                     textAlignVertical="center"
-                    flex={1}
+                    style={styles.flex1}
                     onFocus={handleFocus('password')}
                     onBlur={handleBlur('password')}
                   />
