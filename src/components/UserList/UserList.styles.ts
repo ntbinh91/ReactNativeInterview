@@ -2,9 +2,12 @@ import {StyleSheet} from 'react-native';
 import themeConfig from 'src/constants/themes';
 
 const styles = StyleSheet.create({
-  wrapper: {
+  userListContainer: {
+    paddingVertical: themeConfig.spaces['3'],
     backgroundColor: themeConfig.colors.bg,
-    flex: 1,
+  },
+  itemSeparator: {
+    height: themeConfig.spaces['3'],
   },
 });
 

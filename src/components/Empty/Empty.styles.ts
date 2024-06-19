@@ -3,8 +3,12 @@ import themeConfig from 'src/constants/themes';
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: themeConfig.colors.bg,
-    flex: 1,
+    marginTop: 48,
+    alignItems: 'center',
+    gap: themeConfig.spaces['3'],
+  },
+  text: {
+    color: themeConfig.colors.gray,
   },
 });
 

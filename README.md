@@ -115,8 +115,6 @@ This is one way to run your app — you can also run it directly from within And
       - Makes hooks the primary means of consuming state.
       - Doesn't wrap your app in context providers.
       - Can inform components transiently (without causing render).
-- Styling:
-  - [Gluestack IO](https://gluestack.io/): React & React Native Components & Patterns
 - Forms:
   - [React Hook Form](https://react-hook-form.com/): Performant, flexible and extensible forms with easy-to-use validation.
   - [@hookform/resolvers](https://github.com/react-hook-form/resolvers); [Yup](https://github.com/jquense/yup): Form validation.

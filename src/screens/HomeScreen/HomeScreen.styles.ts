@@ -1,10 +1,10 @@
-import {config} from '@gluestack-ui/config';
 import {StyleSheet} from 'react-native';
+import themeConfig from 'src/constants/themes';
 
 const styles = StyleSheet.create({
-  userListContainer: {
-    paddingVertical: config.tokens.space[3],
-    backgroundColor: '#f4f5fa',
+  wrapper: {
+    backgroundColor: themeConfig.colors.bg,
+    flex: 1,
   },
 });
 

@@ -4,7 +4,7 @@ import axiosInstance from './axiosInstance';
 import {GetUsersParams, GetUsersResponse} from 'src/types/user.types';
 
 const DEFAULT_PAGE_SIZE = 10;
-const MAX_REQUESTED_PAGE = 5;
+// const MAX_REQUESTED_PAGE = 5;
 
 export const INFINITE_GET_USERS_QUERY_KEY = 'infiniteGetUsers';
 
@@ -29,9 +29,9 @@ export const useInfiniteGetUsers = () => {
       page: 1,
     },
     getNextPageParam: ({data}) => {
-      if (data.info.page >= MAX_REQUESTED_PAGE) {
-        return null;
-      }
+      // if (data.info.page >= MAX_REQUESTED_PAGE) {
+      //   return null;
+      // }
 
       return {
         results: data.info.results,

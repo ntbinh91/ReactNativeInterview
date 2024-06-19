@@ -1,11 +1,10 @@
 import React, {useMemo, useState} from 'react';
-import {RefreshControl, Text, VStack, View} from '@gluestack-ui/themed';
 import {INFINITE_GET_USERS_QUERY_KEY, useInfiniteGetUsers} from 'src/api/user';
 import queryClient from 'src/api/queryClient';
-import {FlashList} from '@shopify/flash-list';
-import UserItem from 'src/components/UserItem';
+import UserList from 'src/components/UserList';
 import styles from './HomeScreen.styles';
-import {ClipboardDocumentIcon} from 'react-native-heroicons/outline';
+import {RefreshControl, View} from 'react-native';
+import themeConfig from 'src/constants/themes';
 
 const HomeScreen = () => {
   const {
@@ -37,12 +36,9 @@ const HomeScreen = () => {
   };
 
   return (
-    <View bg="#f4f5fa" flex={1}>
-      <FlashList
+    <View style={styles.wrapper}>
+      <UserList
         data={flattenData}
-        renderItem={({item}) => <UserItem user={item} />}
-        estimatedItemSize={100}
-        keyExtractor={item => item.login.uuid}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
         refreshControl={
@@ -50,20 +46,11 @@ const HomeScreen = () => {
             enabled
             refreshing={isFetching || isLoading}
             onRefresh={() => refetch()}
+            tintColor={themeConfig.colors.primary}
           />
         }
         onEndReached={onEndReached}
         onEndReachedThreshold={0.75}
-        contentContainerStyle={styles.userListContainer}
-        // eslint-disable-next-line react/no-unstable-nested-components
-        ItemSeparatorComponent={() => <View height={12} />}
-        // eslint-disable-next-line react/no-unstable-nested-components
-        ListEmptyComponent={() => (
-          <VStack mt="$12" alignItems="center" gap="$3">
-            <ClipboardDocumentIcon size={50} color="gray" />
-            <Text color="$trueGray400">No data</Text>
-          </VStack>
-        )}
       />
     </View>
   );

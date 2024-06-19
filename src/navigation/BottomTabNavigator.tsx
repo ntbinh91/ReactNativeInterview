@@ -11,13 +11,11 @@ import {
 } from 'react-native-heroicons/outline';
 import FavoriteScreen from 'src/screens/FavoriteScreen';
 import {ScreenName} from 'src/types/navigation.type';
-import {useToken} from '@gluestack-ui/themed';
+import themeConfig from 'src/constants/themes';
 
 const BottomTab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
-  const activeColor = useToken('colors', 'rose600');
-
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -27,7 +25,6 @@ const BottomTabNavigator = () => {
         name={ScreenName.Home}
         component={HomeScreen}
         options={{
-          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused, color}) =>
             focused ? (
               <HomeIcoSolid color={color} />
@@ -35,7 +32,7 @@ const BottomTabNavigator = () => {
               <HomeIconOutline color={color} />
             ),
           title: 'Home',
-          tabBarActiveTintColor: activeColor,
+          tabBarActiveTintColor: themeConfig.colors.primary,
           tabBarAllowFontScaling: false,
         }}
       />
@@ -43,7 +40,6 @@ const BottomTabNavigator = () => {
         name={ScreenName.Favorite}
         component={FavoriteScreen}
         options={{
-          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused, color}) =>
             focused ? (
               <StarIconSolid color={color} />
@@ -51,7 +47,7 @@ const BottomTabNavigator = () => {
               <StarIconOutline color={color} />
             ),
           title: 'Favorite',
-          tabBarActiveTintColor: activeColor,
+          tabBarActiveTintColor: themeConfig.colors.primary,
           tabBarAllowFontScaling: false,
         }}
       />

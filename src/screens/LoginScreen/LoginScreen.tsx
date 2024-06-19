@@ -1,32 +1,25 @@
-import {
-  Button,
-  ButtonText,
-  FormControl,
-  FormControlError,
-  FormControlErrorIcon,
-  FormControlErrorText,
-  Image,
-  Input,
-  InputIcon,
-  InputSlot,
-  SafeAreaView,
-  Text,
-  View,
-  useToken,
-} from '@gluestack-ui/themed';
 import React, {useState} from 'react';
 import useAppStore from 'src/stores/useAppStore';
 import IMAGES from 'src/constants/images';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Controller, useForm} from 'react-hook-form';
-import {TextInput} from 'react-native';
-import {AlertCircleIcon} from '@gluestack-ui/themed';
+import {
+  Image,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {EyeIcon, EyeSlashIcon} from 'react-native-heroicons/solid';
 import {ToastType, useToastMessage} from 'src/hooks/useToastMessage';
 import {LoginRequest} from 'src/types/auth.types';
 import {EnvelopeIcon, LockClosedIcon} from 'react-native-heroicons/outline';
 import styles from './LoginScreen.styles';
+import themeConfig from 'src/constants/themes';
+import Button from 'src/components/Button/Button';
+import FormItemError from 'src/components/FormItemError';
 
 const DEFAULT_CREDENTIALS = {
   email: 'reactnative@jetdevs.com',
@@ -35,7 +28,7 @@ const DEFAULT_CREDENTIALS = {
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required(),
-  password: yup.string().min(8).required(),
+  password: yup.string().required(),
 });
 
 const LoginScreen = () => {
@@ -44,8 +37,7 @@ const LoginScreen = () => {
   const {showToast} = useToastMessage();
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-  const activeColor = useToken('colors', 'rose600');
-  const inactiveColor = useToken('colors', 'secondary300');
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     control,
@@ -54,6 +46,7 @@ const LoginScreen = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: DEFAULT_CREDENTIALS,
+    mode: 'onChange',
   });
 
   const toggleShowPassword = () => {
@@ -61,24 +54,31 @@ const LoginScreen = () => {
   };
 
   const onSubmit = async (data: LoginRequest) => {
+    setIsLoading(true);
     if (
       data.email === DEFAULT_CREDENTIALS.email &&
       data.password === DEFAULT_CREDENTIALS.password
     ) {
-      setCurrentUser({
-        accessToken: 'xx',
-        userProfile: {
-          id: 1,
-          name: 'test',
-          email: 'aaa@a.com',
-        },
-      });
+      setTimeout(() => {
+        setCurrentUser({
+          accessToken: 'xx',
+          userProfile: {
+            id: 1,
+            name: 'test',
+            email: 'aaa@a.com',
+          },
+        });
+        setIsLoading(false);
+      }, 1000);
     } else {
-      showToast({
-        title: 'Error',
-        message: 'Email or password incorrect.',
-        type: ToastType.error,
-      });
+      setTimeout(() => {
+        showToast({
+          title: 'Error',
+          message: 'Email or password is not correct.',
+          type: ToastType.error,
+        });
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
@@ -99,47 +99,34 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView backgroundColor="#f4f5fa" flex={1}>
-      <View
-        flex={1}
-        bg="$white"
-        px="$6"
-        py={100}
-        mx="$6"
-        mt={50}
-        mb={30}
-        rounded="$lg"
-        position="relative"
-        softShadow="4">
-        <View
-          position="absolute"
-          left="50%"
-          backgroundColor="white"
-          width={80}
-          height={80}
-          borderRadius={40}
-          justifyContent="center"
-          alignItems="center"
-          transform={[{translateY: -40}, {translateX: -15}]}>
-          <Image source={IMAGES.LOGO} width={50} height={50} alt="logo" />
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.content}>
+        <View style={styles.logoWrapper}>
+          <Image source={IMAGES.LOGO} style={styles.logo} alt="logo" />
         </View>
 
-        <Text fontSize="$2xl" bold textAlign="center" mb={80}>
-          LOGIN
-        </Text>
-        <View mb={70}>
+        <Text style={styles.title}>LOGIN</Text>
+        <View style={styles.formWrapper}>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FormControl isInvalid={!!errors.email} mb="$8">
-                <Input
-                  variant="underlined"
-                  borderColor={isEmailFocused ? '$rose600' : '$secondary200'}>
-                  <InputSlot mr="$3">
-                    <EnvelopeIcon
-                      color={isEmailFocused ? activeColor : inactiveColor}
-                    />
-                  </InputSlot>
+              <View style={styles.formItemWrapper}>
+                <View
+                  style={[
+                    styles.formItemInputWrapper,
+                    {
+                      borderColor: isEmailFocused
+                        ? themeConfig.colors.primary
+                        : themeConfig.colors.lightGray,
+                    },
+                  ]}>
+                  <EnvelopeIcon
+                    color={
+                      isEmailFocused
+                        ? themeConfig.colors.primary
+                        : themeConfig.colors.secondary
+                    }
+                  />
                   <TextInput
                     textContentType="emailAddress"
                     keyboardType="email-address"
@@ -151,18 +138,15 @@ const LoginScreen = () => {
                     }}
                     blurOnSubmit={false}
                     clearButtonMode="while-editing"
-                    style={styles.flex1}
+                    style={styles.formItemInput}
                     onFocus={handleFocus('email')}
                     onBlur={handleBlur('email')}
                   />
-                </Input>
-                <FormControlError>
-                  <FormControlErrorIcon as={AlertCircleIcon} />
-                  <FormControlErrorText>
-                    {errors.email?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
+                </View>
+                {errors.email && (
+                  <FormItemError errorMessage={errors.email.message} />
+                )}
+              </View>
             )}
             name="email"
           />
@@ -170,17 +154,23 @@ const LoginScreen = () => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FormControl isInvalid={!!errors.password} mb="$4">
-                <Input
-                  variant="underlined"
-                  borderColor={
-                    isPasswordFocused ? '$rose600' : '$secondary200'
-                  }>
-                  <InputSlot mr="$3">
-                    <LockClosedIcon
-                      color={isPasswordFocused ? activeColor : inactiveColor}
-                    />
-                  </InputSlot>
+              <View style={styles.formItemWrapper}>
+                <View
+                  style={[
+                    styles.formItemInputWrapper,
+                    {
+                      borderColor: isPasswordFocused
+                        ? themeConfig.colors.primary
+                        : themeConfig.colors.lightGray,
+                    },
+                  ]}>
+                  <LockClosedIcon
+                    color={
+                      isPasswordFocused
+                        ? themeConfig.colors.primary
+                        : themeConfig.colors.secondary
+                    }
+                  />
                   <TextInput
                     textContentType="password"
                     secureTextEntry={!isShowPassword}
@@ -191,36 +181,42 @@ const LoginScreen = () => {
                     }}
                     clearButtonMode="while-editing"
                     textAlignVertical="center"
-                    style={styles.flex1}
+                    style={styles.formItemInput}
                     onFocus={handleFocus('password')}
                     onBlur={handleBlur('password')}
                   />
                   {value === '' ? (
                     <></>
                   ) : (
-                    <InputSlot pr="$3" onPress={toggleShowPassword}>
-                      <InputIcon as={isShowPassword ? EyeIcon : EyeSlashIcon} />
-                    </InputSlot>
+                    <TouchableOpacity onPress={toggleShowPassword}>
+                      {isShowPassword ? (
+                        <EyeIcon
+                          color={themeConfig.colors.gray}
+                          size={themeConfig.fontSizes.lg}
+                        />
+                      ) : (
+                        <EyeSlashIcon
+                          color={themeConfig.colors.gray}
+                          size={themeConfig.fontSizes.lg}
+                        />
+                      )}
+                    </TouchableOpacity>
                   )}
-                </Input>
-                <FormControlError>
-                  <FormControlErrorIcon as={AlertCircleIcon} />
-                  <FormControlErrorText>
-                    {errors.password?.message}
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
+                </View>
+                {errors.password && (
+                  <FormItemError errorMessage={errors.password.message} />
+                )}
+              </View>
             )}
             name="password"
           />
         </View>
         <Button
+          title="LOGIN"
           onPress={handleSubmit(onSubmit)}
-          size="lg"
           disabled={!isValid}
-          bg={isValid ? '$rose600' : '$secondary300'}>
-          <ButtonText fontSize="$md">LOGIN</ButtonText>
-        </Button>
+          isLoading={isLoading}
+        />
       </View>
     </SafeAreaView>
   );

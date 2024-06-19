@@ -6,10 +6,10 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {MainStackParams, ScreenName} from 'src/types/navigation.type';
 import BottomTabNavigator from './BottomTabNavigator';
-import {HStack, Image, Pressable} from '@gluestack-ui/themed';
 import IMAGES from 'src/constants/images';
 import useAppStore from 'src/stores/useAppStore';
 import {ArrowLeftStartOnRectangleIcon} from 'react-native-heroicons/solid';
+import {Image, Pressable, StyleSheet} from 'react-native';
 
 const MainStack = createNativeStackNavigator();
 
@@ -19,20 +19,16 @@ const MainStackNavigator = () => {
   return (
     <MainStack.Navigator
       screenOptions={{
-        // eslint-disable-next-line react/no-unstable-nested-components
         headerRight: () => (
           <Pressable
             onPress={() => {
               setCurrentUser(null);
             }}>
-            <HStack gap="$1">
-              <ArrowLeftStartOnRectangleIcon size={30} color="black" />
-            </HStack>
+            <ArrowLeftStartOnRectangleIcon size={30} color="black" />
           </Pressable>
         ),
-        // eslint-disable-next-line react/no-unstable-nested-components
         headerTitle: () => (
-          <Image source={IMAGES.LOGO} width={30} height={30} alt="logo" />
+          <Image source={IMAGES.LOGO} style={styles.logo} alt="logo" />
         ),
         headerTitleAlign: 'center',
       }}>
@@ -48,3 +44,10 @@ export const useMainStackNavigation = () =>
   useNavigation<NativeStackNavigationProp<MainStackParams>>();
 
 export default MainStackNavigator;
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 30,
+    height: 30,
+  },
+});
