@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    borderRadius: themeConfig.borderRadius['xl'],
+    borderRadius: themeConfig.borderRadius.xl,
     padding: themeConfig.spaces['5'],
     paddingLeft: 42,
     position: 'relative',
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     gap: themeConfig.spaces['1'],
   },
   username: {
-    fontSize: themeConfig.fontSizes['lg'],
+    fontSize: themeConfig.fontSizes.lg,
     fontWeight: 'bold',
     color: themeConfig.colors.text,
   },
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     gap: themeConfig.spaces['1'],
   },
   address: {
-    fontSize: themeConfig.fontSizes['sm'],
+    fontSize: themeConfig.fontSizes.sm,
     color: themeConfig.colors.gray,
   },
 });

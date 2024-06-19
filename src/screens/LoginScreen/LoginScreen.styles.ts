@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginHorizontal: themeConfig.spaces['5'],
     marginTop: 50,
     marginBottom: 30,
-    borderRadius: themeConfig.borderRadius['xl'],
+    borderRadius: themeConfig.borderRadius.xl,
     position: 'relative',
     ...themeConfig.shadows.soft,
   },

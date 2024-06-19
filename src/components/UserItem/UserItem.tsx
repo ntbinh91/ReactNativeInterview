@@ -6,7 +6,7 @@ import {User} from 'src/types/user.types';
 import useAppStore from 'src/stores/useAppStore';
 import themeConfig from 'src/constants/themes';
 import styles from './UserItem.styles';
-import {Image, View, Text, Pressable, TouchableOpacity} from 'react-native';
+import {Image, View, Text, TouchableOpacity} from 'react-native';
 
 interface Props {
   user: User;
